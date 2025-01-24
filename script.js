@@ -7,6 +7,11 @@ class Game2048 {
         this.modal = document.getElementById('game-over-modal');
         this.finalScoreElement = document.querySelector('.final-score');
         this.maxValue = 0;
+
+        // 将事件监听器绑定移到构造函数中，只执行一次
+        this.boundHandleKeyPress = this.handleKeyPress.bind(this);
+        document.addEventListener('keydown', this.boundHandleKeyPress);
+
         this.init();
         this.loadLeaderboard();
     }
@@ -29,9 +34,6 @@ class Game2048 {
         this.addNewNumber();
         this.addNewNumber();
         this.updateDisplay();
-
-        // 添加键盘事件监听
-        document.addEventListener('keydown', this.handleKeyPress.bind(this));
     }
 
     addNewNumber() {
@@ -42,7 +44,7 @@ class Game2048 {
 
         if (emptyCells.length > 0) {
             const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-            this.grid[randomCell] = Math.random() < 0.9 ? 2 : 4;
+            this.grid[randomCell] = Math.random() < 0.7 ? 2 : 4;
         }
     }
 
