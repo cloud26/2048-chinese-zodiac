@@ -1,5 +1,31 @@
+/* 添加基础样式重置 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #faf8ef;
+    padding: 20px;
+}
+
+.game-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* 改为 flex-start 以防止内容被压缩 */
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    /* 允许在小屏幕上换行 */
+}
+
 .container {
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     margin: 0 auto;
     text-align: center;
 }
@@ -12,18 +38,22 @@
     padding: 10px;
     border-radius: 5px;
     margin: 20px 0;
+    aspect-ratio: 1;
+    /* 保持网格为正方形 */
 }
 
 .cell {
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    /* 改为相对宽度 */
+    aspect-ratio: 1;
+    /* 保持单元格为正方形 */
     background-color: rgba(238, 228, 218, 0.35);
     border-radius: 3px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 40px;
-    color: #776e65;
+    font-size: clamp(20px, 8vw, 40px);
+    /* 响应式字体大小 */
 }
 
 .cell[data-value="2"] {
@@ -210,25 +240,16 @@ button:hover {
     color: #f65e3b;
 }
 
-.game-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-    min-height: 100vh;
-}
-
 .merge-guide {
+    width: 100%;
+    max-width: 300px;
     background-color: #bbada0;
-    padding: 20px;
+    padding: 15px;
     border-radius: 5px;
     color: #f9f6f2;
-    min-width: 200px;
     height: fit-content;
-    position: sticky;
-    top: 20px;
+    position: static;
+    /* 移动端取消 sticky 定位 */
 }
 
 .merge-guide h2 {
@@ -252,4 +273,56 @@ button:hover {
 
 .guide-item .animal {
     font-size: 24px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .game-container {
+        gap: 10px;
+    }
+
+    .guide-item {
+        padding: 5px 10px;
+    }
+
+    .guide-item .animal {
+        font-size: 20px;
+    }
+
+    .leaderboard {
+        margin-top: 15px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin: 10px 0;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .modal-content {
+        padding: 20px;
+        margin: 20px;
+    }
+
+    .pig {
+        font-size: 60px;
+    }
+}
+
+/* 针对特小屏幕的额外调整 */
+@media (max-width: 350px) {
+    .cell {
+        font-size: 16px;
+    }
+
+    .guide-item .animal {
+        font-size: 16px;
+    }
 }
