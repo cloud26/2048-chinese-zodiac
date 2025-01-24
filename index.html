@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <div class="container">
+            <h1>2048</h1>
+            <div class="score">分数: <span id="score">0</span></div>
+            <div class="grid"></div>
+            <button id="new-game">新游戏</button>
+
+            <!-- 添加排行榜 -->
+            <div class="leaderboard">
+                <h2>排行榜 Top 10</h2>
+                <div id="leaderboard-list"></div>
+            </div>
+
+            <!-- 添加游戏结束弹窗 -->
+            <div id="game-over-modal" class="modal">
+                <div class="modal-content">
+                    <div class="pig">🐷</div>
+                    <h2>游戏结束啦！</h2>
+                    <p>你的得分是: <span class="final-score"></span></p>
+                    <button id="restart-game">再玩一次</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 添加合成指南 -->
+        <div class="merge-guide">
+            <h2>合成指南</h2>
+            <div class="guide-item">
+                <span class="animal">🐭</span> + <span class="animal">🐭</span> = <span class="animal">🐮</span>
+            </div>
+            <div class="guide-item">
+                <span class="animal">🐮</span> + <span class="animal">🐮</span> = <span class="animal">🐯</span>
+            </div>
+            <div class="guide-item">
+                <span class="animal">🐯</span> + <span class="animal">🐯</span> = <span class="animal">🐰</span>
+            </div>
+            <div class="guide-item">
+                <span class="animal">🐰</span> + <span class="animal">🐰</span> = <span class="animal">🐲</span>
+            </div>
+            <div class="guide-item">
+                <span class="animal">🐲</span> + <span class="animal">🐲</span> = <span class="animal">🐍</span>
+            </div>
+            <div class="guide-item">
+                <span class="animal">🐍</span> + <span class="animal">🐍</span> = <span class="animal">🐎</span>
+            </div>
+            <div class="guide-item">
+                <span class="animal">🐎</span> + <span class="animal">🐎</span> = <span class="animal">🐑</span>
+            </div>
+            <div class="guide-item">
+                <span class="animal">🐑</span> + <span class="animal">🐑</span> = <span class="animal">🐒</span>
+            </div>
+            <div class="guide-item">
+                <span class="animal">🐒</span> + <span class="animal">🐒</span> = <span class="animal">🐔</span>
+            </div>
+            <div class="guide-item">
+                <span class="animal">🐔</span> + <span class="animal">🐔</span> = <span class="animal">🐕</span>
+            </div>
+            <div class="guide-item">
+                <span class="animal">🐕</span> + <span class="animal">🐕</span> = <span class="animal">🐷</span>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
