@@ -12,6 +12,13 @@ class Game2048 {
         this.boundHandleKeyPress = this.handleKeyPress.bind(this);
         document.addEventListener('keydown', this.boundHandleKeyPress);
 
+        // 添加触摸事件监听
+        this.touchStartX = null;
+        this.touchStartY = null;
+        this.gridElement.addEventListener('touchstart', this.handleTouchStart.bind(this));
+        this.gridElement.addEventListener('touchmove', this.handleTouchMove.bind(this));
+        this.gridElement.addEventListener('touchend', this.handleTouchEnd.bind(this));
+
         this.init();
         this.loadLeaderboard();
     }
@@ -234,6 +241,54 @@ class Game2048 {
 
     hideGameOver() {
         this.modal.classList.remove('show');
+    }
+
+    // 添加触摸事件处理方法
+    handleTouchStart(event) {
+        event.preventDefault();
+        this.touchStartX = event.touches[0].clientX;
+        this.touchStartY = event.touches[0].clientY;
+    }
+
+    handleTouchMove(event) {
+        event.preventDefault();
+    }
+
+    handleTouchEnd(event) {
+        if (!this.touchStartX || !this.touchStartY) return;
+
+        const touchEndX = event.changedTouches[0].clientX;
+        const touchEndY = event.changedTouches[0].clientY;
+
+        const deltaX = touchEndX - this.touchStartX;
+        const deltaY = touchEndY - this.touchStartY;
+
+        // 最小滑动距离，防止误触
+        const minSwipeDistance = 30;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // 水平滑动
+            if (Math.abs(deltaX) > minSwipeDistance) {
+                if (deltaX > 0) {
+                    this.move('ArrowRight');
+                } else {
+                    this.move('ArrowLeft');
+                }
+            }
+        } else {
+            // 垂直滑动
+            if (Math.abs(deltaY) > minSwipeDistance) {
+                if (deltaY > 0) {
+                    this.move('ArrowDown');
+                } else {
+                    this.move('ArrowUp');
+                }
+            }
+        }
+
+        // 重置触摸起始点
+        this.touchStartX = null;
+        this.touchStartY = null;
     }
 }
 
