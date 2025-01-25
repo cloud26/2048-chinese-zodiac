@@ -1,0 +1,21 @@
+{
+    "name": "十二生肖合成",
+    "short_name": "生肖合成",
+    "description": "一款基于十二生肖的趣味合成游戏",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#faf8ef",
+    "theme_color": "#faf8ef",
+    "icons": [
+        {
+            "src": "path/to/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "path/to/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+} 
