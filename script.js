@@ -7,6 +7,7 @@ class Game2048 {
         this.modal = document.getElementById('game-over-modal');
         this.finalScoreElement = document.querySelector('.final-score');
         this.maxValue = 0;
+        this.positions = new Map(); // 存储方块位置
 
         // 将事件监听器绑定移到构造函数中，只执行一次
         this.boundHandleKeyPress = this.handleKeyPress.bind(this);
@@ -52,11 +53,20 @@ class Game2048 {
         if (emptyCells.length > 0) {
             const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
             this.grid[randomCell] = Math.random() < 0.7 ? 2 : 4;
+
+            // 添加新方块动画
+            requestAnimationFrame(() => {
+                const cells = document.querySelectorAll('.cell');
+                cells[randomCell].classList.add('new');
+            });
         }
     }
 
     updateDisplay() {
         const cells = document.querySelectorAll('.cell');
+        const oldPositions = new Map(this.positions);
+        this.positions.clear();
+
         this.grid.forEach((value, index) => {
             let zodiac = '';
             switch (value) {
@@ -76,8 +86,37 @@ class Game2048 {
             }
             cells[index].textContent = zodiac;
             cells[index].setAttribute('data-value', value);
+
+            if (value !== 0) {
+                // 存储新位置
+                this.positions.set(value + '-' + this.getTileId(index), index);
+            }
+
+            // 移除旧的动画类
+            cells[index].classList.remove('new', 'merged');
         });
+
+        // 添加移动动画
+        this.positions.forEach((newPos, tileId) => {
+            const oldPos = oldPositions.get(tileId);
+            if (oldPos !== undefined && oldPos !== newPos) {
+                const cell = cells[newPos];
+                const x = (newPos % 4 - oldPos % 4) * (cell.offsetWidth + 10); // 10是grid-gap
+                const y = (Math.floor(newPos / 4) - Math.floor(oldPos / 4)) * (cell.offsetHeight + 10);
+
+                cell.style.transform = `translate(${-x}px, ${-y}px)`;
+                requestAnimationFrame(() => {
+                    cell.style.transform = 'translate(0, 0)';
+                });
+            }
+        });
+
         this.scoreElement.textContent = this.score;
+    }
+
+    // 生成唯一的方块ID
+    getTileId(index) {
+        return Date.now() + '-' + index;
     }
 
     move(direction) {
@@ -119,10 +158,9 @@ class Game2048 {
     }
 
     processLine(line, leftDirection) {
-        // 移除零
         let numbers = line.filter(x => x !== 0);
+        let merged = false;
 
-        // 合并相同的数字
         if (leftDirection) {
             for (let i = 0; i < numbers.length - 1; i++) {
                 if (numbers[i] === numbers[i + 1]) {
@@ -130,6 +168,7 @@ class Game2048 {
                     this.score += numbers[i];
                     this.maxValue = Math.max(this.maxValue, numbers[i]);
                     numbers.splice(i + 1, 1);
+                    merged = true;
                 }
             }
         } else {
@@ -139,6 +178,7 @@ class Game2048 {
                     this.score += numbers[i];
                     this.maxValue = Math.max(this.maxValue, numbers[i]);
                     numbers.splice(i - 1, 1);
+                    merged = true;
                 }
             }
         }
@@ -146,6 +186,18 @@ class Game2048 {
         // 补充零
         while (numbers.length < 4) {
             leftDirection ? numbers.push(0) : numbers.unshift(0);
+        }
+
+        // 如果发生了合并，添加合并动画
+        if (merged) {
+            requestAnimationFrame(() => {
+                const cells = document.querySelectorAll('.cell');
+                numbers.forEach((num, idx) => {
+                    if (num !== 0) {
+                        cells[leftDirection ? idx : 3 - idx].classList.add('merged');
+                    }
+                });
+            });
         }
 
         return numbers;

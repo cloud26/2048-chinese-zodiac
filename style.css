@@ -54,6 +54,8 @@ body {
     align-items: center;
     font-size: clamp(20px, 8vw, 40px);
     /* 响应式字体大小 */
+    transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out;
+    position: relative;
 }
 
 .cell[data-value="2"] {
@@ -325,4 +327,40 @@ button:hover {
     .guide-item .animal {
         font-size: 16px;
     }
+}
+
+/* 新生成方块的动画 */
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 合并时的动画 */
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.cell.new {
+    animation: appear 0.2s ease-in-out;
+}
+
+.cell.merged {
+    animation: pop 0.2s ease-in-out;
 }
